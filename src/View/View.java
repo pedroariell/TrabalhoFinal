@@ -23,6 +23,7 @@ public class View extends javax.swing.JFrame {
     private tablemodel tblmodel;
     arquivo a = new arquivo();
     List<moeda> lista;
+   
     /**
      * Creates new form View
      */
@@ -33,9 +34,8 @@ public class View extends javax.swing.JFrame {
      public void atualizarTabela(){
          tblmodel = new tablemodel(lista);
          jTable1.setModel(tblmodel);
-         
-         
-         
+
+      
        
        
      
@@ -66,6 +66,12 @@ public class View extends javax.swing.JFrame {
         jLabel1.setText("Data Inicial:");
 
         jLabel2.setText("Data Final:");
+
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField1KeyReleased(evt);
+            }
+        });
 
         jButton1.setText("Importar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -136,7 +142,8 @@ public class View extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       if (jFileChooser1.showOpenDialog(this) == 
+              int i = 0;
+        if (jFileChooser1.showOpenDialog(this) == 
                     jFileChooser1.APPROVE_OPTION){
            try {
             lista = a.importar(jFileChooser1.getSelectedFile().getAbsolutePath());
@@ -149,9 +156,27 @@ public class View extends javax.swing.JFrame {
         }
      
        }
+       while(i<lista.size()){
+            String str1 = jTable1.getValueAt(i, 0).toString();
+            String str2 = jTextField1.getText();
+            String str3 = jTextField2.getText();
+            int comp = str1.compareTo(str2);
+            int comp2 = str1.compareTo(str3);
+            if(comp<0 && comp2>0){
+                    lista.remove(this);
+            }
+            i++;
+        }
        
        
+         
+
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+            
+        
+    }//GEN-LAST:event_jTextField1KeyReleased
 
     /**
      * @param args the command line arguments
