@@ -3,41 +3,54 @@ package View;
 import Model.TAbleModel.tablemodel;
 import Model.arquivo;
 import Model.moeda;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Icon;
+import javax.swing.JFrame;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.CategoryItemRenderer;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author aluno
  */
 public class View extends javax.swing.JFrame {
+    private Double grafico = 100000.0;
     private tablemodel tblmodel;
     arquivo a = new arquivo();
     List<moeda> lista;
-   
+
     /**
      * Creates new form View
      */
     public View() {
         initComponents();
-        
     }
-     public void atualizarTabela(){
-         tblmodel = new tablemodel(lista);
-         jTable1.setModel(tblmodel);
 
-     }
+    public void atualizarTabela() {
+        tblmodel = new tablemodel(lista);
+        jTable1.setModel(tblmodel);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -58,6 +71,7 @@ public class View extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -76,6 +90,7 @@ public class View extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/import.png"))); // NOI18N
         jButton1.setText("Importar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -94,36 +109,41 @@ public class View extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         jTabbedPane1.addTab("tab1", jScrollPane1);
-
-        jLabel3.setText("jLabel3");
         jTabbedPane1.addTab("tab2", jLabel3);
+
+        jLabel4.setText("Guilherme, Mauricio, Pedro");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField2)))
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(22, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jTabbedPane1)
+                            .addContainerGap())
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel1)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel2)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jTextField2)))
+                            .addGap(18, 18, 18)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(690, 690, 690)))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -133,7 +153,7 @@ public class View extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -141,52 +161,85 @@ public class View extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-              int i = 0;
-        if (jFileChooser1.showOpenDialog(this) == 
-                    jFileChooser1.APPROVE_OPTION){
-           try {
-            lista = a.importar(jFileChooser1.getSelectedFile().getAbsolutePath());
-        } catch (IOException ex) {
-            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+        int i = 0;
+        if (jFileChooser1.showOpenDialog(this)
+                == jFileChooser1.APPROVE_OPTION) {
+            try {
+                lista = a.importar(jFileChooser1.getSelectedFile().getAbsolutePath());
+            } catch (IOException ex) {
+                Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
-     
-       }
         
+        DefaultCategoryDataset ds = new DefaultCategoryDataset();
+//        ChartPanel panel = new ChartPanel(jFreeChart);        
+
         String str2 = jTextField1.getText();
         String str3 = jTextField2.getText();
-        if(!str2.equals("")&&!str3.equals("") ){
-        try {
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        Date data1 = new Date(format.parse(str2).getTime());
-        Date data2 = new Date(format.parse(str3).getTime());
-        //System.out.println(data1.toString()+"--"+data2.toString());
-        while(i<lista.size()){
-            Date dataComp=lista.get(i).getData();
-            int comp1 = data1.compareTo(dataComp);
-            int comp2 = data2.compareTo(dataComp);
-            //System.out.println(data1.toString()+"-com-"+dataComp.toString()+"="+comp1);
-            //System.out.println(data2.toString()+"-com-"+dataComp.toString()+"="+comp2);
-            //System.out.println(comp1+"--"+comp2);
-            if(comp1>0 || comp2<0){
-                    lista.remove(i);
-                    i--;
+        if (!str2.equals("") && !str3.equals("")) {
+            try {
+                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                Date data1 = new Date(format.parse(str2).getTime());
+                Date data2 = new Date(format.parse(str3).getTime());
+                //System.out.println(data1.toString()+"--"+data2.toString());
+                while (i < lista.size()) {
+                    Date dataComp = lista.get(i).getData();
+                    int comp1 = data1.compareTo(dataComp);
+                    int comp2 = data2.compareTo(dataComp);
+                    if (comp1 > 0 || comp2 < 0) {
+                        lista.remove(i);
+                        i--;
+                    }
+                    i++;
+                }
+                i = 0;
+                while (i < lista.size()) {                   
+                    ds.addValue(Double.valueOf(lista.get(i).getCompra()), "Valor de venda", String.valueOf(lista.get(i).getData()));
+                    ds.addValue(Double.valueOf(lista.get(i).getVenda()), "Valor da compra", String.valueOf(lista.get(i).getData()));
+                    i++;
+                }
+            } catch (ParseException ex) {
+                Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
             }
-            i++;
+        }else {
+            while (i < lista.size()) {                   
+                    ds.addValue(Double.valueOf(lista.get(i).getCompra()), "Valor de venda", String.valueOf(lista.get(i).getData()));
+                    ds.addValue(Double.valueOf(lista.get(i).getVenda()), "Valor da compra", String.valueOf(lista.get(i).getData()));
+                    i++;
+                }
         }
-        } catch (ParseException ex) {
-            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+        
+        
+        atualizarTabela();
+        
+        JFreeChart jFreeChart = ChartFactory.createLineChart("Cotação do Dolar", "Dias", "Valores", ds, PlotOrientation.VERTICAL, true, true, true);
+        CategoryItemRenderer renderer = jFreeChart.getCategoryPlot().getRenderer();
+        renderer.setSeriesPaint(0, Color.BLUE);
+        renderer.setSeriesPaint(1, Color.RED);        
+        
+        OutputStream arquivo;
+        try {
+            grafico+=0.0001;
+            arquivo = new FileOutputStream("grafico" + grafico + ".png");
+            ChartUtilities.writeChartAsPNG(arquivo, jFreeChart, 550, 400);
+            jLabel3.setIcon(new javax.swing.ImageIcon("grafico" + grafico + ".png"));
+            arquivo.close();
+            new File("grafico" + grafico + ".png").delete();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-        }
-       atualizarTabela();
-         
+
+       
+
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
-            
-        
+
+
     }//GEN-LAST:event_jTextField1KeyReleased
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -204,7 +257,7 @@ public class View extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -234,6 +287,7 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
