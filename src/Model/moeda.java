@@ -2,6 +2,7 @@ package Model;
 
 
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /*
@@ -57,6 +58,13 @@ public class moeda {
     public void setVenda(double venda) {
         this.venda = venda;
     }
-    
+    public String getDataString(){
+        if(data != null){
+            SimpleDateFormat  formatoData = new SimpleDateFormat("dd/MM/yyyy");
+            return formatoData.format(data);
+        }else{
+            return null;
+        }
+    }
     
 }

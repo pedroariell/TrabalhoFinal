@@ -57,7 +57,7 @@ public class tablemodel extends AbstractTableModel {
         moeda md = Moeda.get(rowIndex);
         
         switch (columnIndex){
-            case 0 : return md.getData();
+            case 0 : return md.getDataString();
             case 1 : return md.getTipo();
             case 2 : return md.getCompra();
             case 3 : return md.getVenda();
